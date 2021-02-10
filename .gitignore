@@ -1,3 +1,11 @@
+# VScode Personal Preference
+.vscode/
+
+# Meeting Records / Notes
+.meeting/
+
+# =========== Default Python gitignore template below ==============
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
