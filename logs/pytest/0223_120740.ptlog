@@ -1,0 +1,2 @@
+2021-02-23 12:07:40 [    INFO] CAPTURE: CaptureResult(out='Hello World\n', err='') (test_app.py:11)
+2021-02-23 12:07:40 [    INFO] ASSUMED: Hello World (test_app.py:12)
