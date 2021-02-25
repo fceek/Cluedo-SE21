@@ -197,9 +197,18 @@ class Room:
 
 class Player:
     """player involved in the game
+
+    DO NOT use directly, a player should be either Human or Ai
     """
     def __init__(self, name, coordinate):
         self.name = name
         self.cards_in_hand = []
         self.coordinate = coordinate
         self.skipped = False
+
+
+class Human(Player):
+    pass
+
+class Ai(Player):
+    pass
