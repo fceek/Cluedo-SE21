@@ -1,9 +1,9 @@
 from tests.conftest import LOGGER
-from cluedo import Cluedo
+import cluedo
 
 def test_app(capsys):
 
-    Cluedo.run()
+    cluedo.Cluedo.run()
 
     captured = capsys.readouterr()
     res = "Hello World"
