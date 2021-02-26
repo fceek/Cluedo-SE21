@@ -75,11 +75,11 @@ class CluedoGame:
         target_room = str(input())
         self.gameboard.move_player_to_room(player, target_room)
 
-        self.process_suspect()
+        player.process_suspect()
         
         print("Want to accuse? Y/N")
         if str(input()) == "Y":
-            if self.process_accuse():
+            if player.process_accuse():
                 return False
             else:
                 player.skipped = True
@@ -129,25 +129,6 @@ class CluedoGame:
 
         Returns:
             int: roll result
-        """
-        pass
-
-    def process_suspect(self):
-        """make suspection
-
-        This one is rather complicated, player should choose a character and a weapon, while the room be the one player is in.
-        Loop through the player list, choose and display card.
-        # May need to duplicate player list to avoid interrupt next_player_iter?
-        """
-        pass
-
-    def process_accuse(self) -> bool:
-        """make accusation
-
-        Same as suspection, but player can choose other rooms.
-
-        Returns:
-            bool: True if accuse succeed, game over. False if accuse failed, player would be marked as skipped (can't process turn)
         """
         pass
 
@@ -206,9 +187,36 @@ class Player:
         self.coordinate = coordinate
         self.skipped = False
 
+    def process_suspect(self):
+        """make suspection, Interface, DO NOT implement it directly
+
+        This one is rather complicated, player should choose a character and a weapon, while the room be the one player is in.
+        Loop through the player list, choose and display card.
+        # May need to duplicate player list to avoid interrupt next_player_iter?
+        """
+        pass
+
+    def process_accuse(self) -> bool:
+        """make accusation, Interface, DO NOT implement it directly
+
+        Same as suspection, but player can choose other rooms.
+
+        Returns:
+            bool: True if accuse succeed, game over. False if accuse failed, player would be marked as skipped (can't process turn)
+        """
+        pass
+
 
 class Human(Player):
-    pass
+    def process_suspect(self):
+        pass
+
+    def process_accuse(self) -> bool:
+        pass
 
 class Ai(Player):
-    pass
+    def process_suspect(self):
+        pass
+
+    def process_accuse(self) -> bool:
+        pass
