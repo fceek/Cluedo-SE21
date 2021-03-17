@@ -24,6 +24,7 @@ class CluedoGame:
         Args:
             player_count (int): number of players in this game
         """
+        self.player_count = player_count
         self.players = []
         self.gameboard = GameBoard()
         self.cards = {
@@ -38,8 +39,8 @@ class CluedoGame:
         self.load_cards()
         self.load_players(player_count)
 
-        #self.generate_answer()
-        #self.deal_card()
+        self.generate_answer()
+        self.deal_card()
 
         #self.next_player_iter = iter(self.players)
         #self.next_player = next(self.next_player_iter)
@@ -113,22 +114,40 @@ class CluedoGame:
         Args:
             player_count (int): number of players
         """
-        player_setup = self.setup["setup"]["tokens"]
-        for i in range(self.setup["setup"]["token_num"]):
-            if i < player_count:
-                self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
-            else:
-                self.players.append(Ai(player_setup[i]["name"], player_setup[i]["start"]))
+        player_setup = self.setup["setup"]["tokens"].copy()
+        random.shuffle(player_setup)
+        for i in range(player_count):
+            self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
 
     def generate_answer(self):
         """choose one card of each type to be the correct answer
         """
-        pass
+        random.choice(self.cards["tokens"]).make_answer()
+        random.choice(self.cards["weapons"]).make_answer()
+        random.choice(self.cards["rooms"]).make_answer()
 
     def deal_card(self):
         """deal non-answer cards to players
         """
-        pass
+        all_cards_with_answers = (
+            self.cards["tokens"]
+          + self.cards["weapons"]
+          + self.cards["rooms"]
+        )
+        all_cards = [x for x in all_cards_with_answers if not x.is_answer]
+        random.shuffle(all_cards)
+        extra_card_num = len(all_cards) % self.player_count
+        card_num = len(all_cards) // self.player_count
+        for i in range(extra_card_num):
+            self.players[i].cards_in_hand = all_cards[
+                (card_num + 1) * i
+              : (card_num + 1) * (i + 1)
+            ]
+        for i in range(extra_card_num, self.player_count):
+            self.players[i].cards_in_hand = all_cards[
+                extra_card_num + card_num * i
+              : extra_card_num + card_num * (i + 1)
+            ]
 
     def display_info(self):
         """show essential info that the player need before move in a turn
@@ -141,4 +160,4 @@ class CluedoGame:
         Returns:
             int: roll result
         """
-        pass
+        return random.randint(1,6) + random.randint(1,6)

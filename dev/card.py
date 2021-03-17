@@ -15,5 +15,9 @@ class Card:
         self.is_answer = not self.is_answer
 
     def __repr__(self) -> str:
-        return "\n[Type: {self.category}, Text: {self.description}]".format(self = self)
+        if self.is_answer:
+            constr = "Answer"
+        else:
+            constr = ""
+        return "\n[Type: {self.category}, Text: {self.description}, {constr}]".format(self = self, constr = constr)
 
