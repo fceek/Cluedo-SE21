@@ -1,4 +1,4 @@
-from .cluedo_game import CluedoGame
+from cluedo_game import CluedoGame
 """Development sample for cmd-cluedo
 
 Blueprint for game prototype, subject to change

@@ -5,7 +5,7 @@ from gameboard import GameBoard
 from card import Card
 from room import Room
 
-import json,random
+import json, random, os
 
 class CluedoGame:
     """Single round of cluedo game
@@ -31,7 +31,8 @@ class CluedoGame:
             "weapons"   : [],
             "rooms"     : []
         }
-        self.setup = self.load_setup(None)
+        dir = os.path.dirname(__file__)
+        self.setup = self.load_setup(os.path.join(dir,DEFAULT_SETUP))
 
         self.load_gameboard()
         self.load_cards()
@@ -82,7 +83,7 @@ class CluedoGame:
         
 
     def load_setup(self, path = DEFAULT_SETUP):
-        with open('data/default.json') as setup_file:
+        with open(path) as setup_file:
             setup = json.load(setup_file)
         return setup
 
