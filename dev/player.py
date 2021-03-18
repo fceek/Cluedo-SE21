@@ -1,3 +1,5 @@
+from logbook import Logbook
+
 class Player:
     """player involved in the game
 
@@ -8,23 +10,18 @@ class Player:
         self.cards_in_hand = []
         self.coordinate = coordinate
         self.skipped = False
+        self.logbook = Logbook()
 
     def process_suspect(self):
         """make suspection, Interface, DO NOT implement it directly
 
-        This one is rather complicated, player should choose a character and a weapon, while the room be the one player is in.
-        Loop through the player list, choose and display card.
-        # May need to duplicate player list to avoid interrupt next_player_iter?
         """
         pass
 
-    def process_accuse(self) -> bool:
+    def process_accuse(self):
         """make accusation, Interface, DO NOT implement it directly
 
         Same as suspection, but player can choose other rooms.
-
-        Returns:
-            bool: True if accuse succeed, game over. False if accuse failed, player would be marked as skipped (can't process turn)
         """
         pass
 
@@ -36,12 +33,12 @@ class Human(Player):
     def process_suspect(self):
         pass
 
-    def process_accuse(self) -> bool:
+    def process_accuse(self):
         pass
 
 class Ai(Player):
     def process_suspect(self):
         pass
 
-    def process_accuse(self) -> bool:
+    def process_accuse(self):
         pass

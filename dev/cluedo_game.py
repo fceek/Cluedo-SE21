@@ -32,7 +32,7 @@ class CluedoGame:
             "weapons"   : [],
             "rooms"     : []
         }
-        dir = os.path.dirname(__file__)
+        dir = os.path.dirname(__file__)    # resolve relative path
         self.setup = self.load_setup(os.path.join(dir,DEFAULT_SETUP))
 
         self.load_gameboard()
@@ -67,14 +67,11 @@ class CluedoGame:
         target_room = str(input())
         self.gameboard.move_player_to_room(player, target_room)
 
-        player.process_suspect()
+        suspect = player.process_suspect()
+        self.check_suspect(suspect)
         
-        print("Want to accuse? Y/N")
-        if str(input()) == "Y":
-            if player.process_accuse():
-                return False
-            else:
-                player.skipped = True
+        accuse = player.process_accuse()
+        self.check_accuse(accuse)
 
         candidate_next = next(self.next_player_iter)
         while candidate_next.skipped:
@@ -84,6 +81,14 @@ class CluedoGame:
         
 
     def load_setup(self, path = DEFAULT_SETUP):
+        """Load setup JSON from external file
+
+        Args:
+            path (string, optional): relative path to setup file. Defaults to DEFAULT_SETUP.
+
+        Returns:
+            dict: the unwrapped JSON dict
+        """
         with open(path) as setup_file:
             setup = json.load(setup_file)
         return setup
@@ -119,6 +124,13 @@ class CluedoGame:
         for i in range(player_count):
             self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
 
+    # TODO()
+    def register_logbooks(self):
+        """Generate Logbook for each player and do the init
+        """
+        for this_player in self.players:
+            pass
+
     def generate_answer(self):
         """choose one card of each type to be the correct answer
         """
@@ -149,11 +161,6 @@ class CluedoGame:
               : extra_card_num + card_num * (i + 1)
             ]
 
-    def display_info(self):
-        """show essential info that the player need before move in a turn
-        """
-        pass
-
     def roll_dice(self) -> int:
         """roll dice to decide move points
 
@@ -161,3 +168,36 @@ class CluedoGame:
             int: roll result
         """
         return random.randint(1,6) + random.randint(1,6)
+    
+    # TODO()
+    def display_info(self):
+        """show essential info that the player need before move in a turn
+        """
+        pass
+
+    def check_suspect(self, suspect):
+        """Check and response to player suspection
+
+        Args:
+            suspect (dict): the suspection, consists of token, weapon and room
+        """
+        pass
+
+    def check_accuse(self, accuse):
+        """Check and response to player accusation
+
+        Args:
+            accuse (dict): the accusation, consists of token, weapon and room
+        """
+        pass
+
+    def notify_logbooks(self, info):
+        """Update all logbook with the info just got
+
+        This might be called in check_suspect(), is an accusation visible to other players?
+
+        Args:
+            info (not determined): information from an suspection
+        """
+        for this_player in self.players:
+            this_player.logbook.update(info)
