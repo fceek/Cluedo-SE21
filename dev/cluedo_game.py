@@ -58,16 +58,14 @@ class CluedoGame:
         Returns:
             bool: True if next turn is needed, False if the game is over
         """
-        self.display_info()
         move_points = self.roll_dice()
         reachable_rooms = self.gameboard.check_reachable_rooms(player, move_points)
-
-        print(reachable_rooms) # need some formatting
-        print("Choose a room to enter:")
+        self.display_info(player, move_points,reachable_rooms)
         target_room = str(input())
         self.gameboard.move_player_to_room(player, target_room)
 
-        suspect = player.process_suspect()
+        suspect = player.process_suspect(self.cards)
+        suspect.update(target_room)
         self.check_suspect(suspect)
         
         accuse = player.process_accuse()
@@ -170,9 +168,13 @@ class CluedoGame:
         return random.randint(1,6) + random.randint(1,6)
     
     # TODO()
-    def display_info(self):
+    def display_info(self,player,move_points,reachable_rooms):
         """show essential info that the player need before move in a turn
         """
+        print(player.cards_in_hand)
+        print(move_points)
+        print(reachable_rooms)  # need some formatting
+        print("Choose a room to enter:")
         pass
 
     def check_suspect(self, suspect):

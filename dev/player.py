@@ -1,5 +1,5 @@
 from logbook import Logbook
-
+from card import Card
 class Player:
     """player involved in the game
 
@@ -12,11 +12,12 @@ class Player:
         self.skipped = False
         self.logbook = Logbook()
 
-    def process_suspect(self):
+    def process_suspect(self, cards) -> dict:
         """make suspection, Interface, DO NOT implement it directly
 
         """
         pass
+
 
     def process_accuse(self):
         """make accusation, Interface, DO NOT implement it directly
@@ -30,15 +31,28 @@ class Player:
 
 
 class Human(Player):
-    def process_suspect(self):
-        pass
+    def process_suspect(self, cards):
+        print('Choose a weapon')
+        weaponCard = cards['weapons'][int(input('choose weapn: ')) - 1]
+        print(weaponCard)
+        tokenCard = cards['tokens'][int(input('choose token: ')) - 1]
+        print(tokenCard)
+        return {'weapon': weaponCard, 'token': tokenCard}
+
 
     def process_accuse(self):
         pass
 
 class Ai(Player):
-    def process_suspect(self):
-        pass
+    def process_suspect(self, cards):
+        print('Choose a weapon')
+        weaponCard = cards['weapons'][int(input('choose weapn: ')) - 1]
+        print(weaponCard)
+        tokenCard = cards['tokens'][int(input('choose token: ')) - 1]
+        print(tokenCard)
+        return {'weapon': weaponCard, 'token': tokenCard}
+
 
     def process_accuse(self):
         pass
+
