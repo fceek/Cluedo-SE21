@@ -13,6 +13,7 @@ class Player:
         self.coordinate = coordinate
         self.skipped = False
         self.logbook = Logbook()
+
         self.in_room = None
 
     def process_suspect(self, cards,target_room) -> dict:
@@ -20,6 +21,7 @@ class Player:
 
         """
         pass
+
 
     def process_accuse(self) -> dict:
         """make accusation, Interface, DO NOT implement it directly
@@ -40,6 +42,7 @@ class Player:
 
 
 class Human(Player):
+
     def process_suspect(self, cards,target_room):
         weapon_card = cards['weapons'][int(input('choose weapn: ')) - 1]
         print(weapon_card)

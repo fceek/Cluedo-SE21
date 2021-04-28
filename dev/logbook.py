@@ -5,5 +5,5 @@ class Logbook:
     def __init__(self):
         pass
 
-    def check_logbook_item(card, player):
+    def check_logbook_item(self, card, player):
         pass

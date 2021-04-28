@@ -56,6 +56,7 @@ class CluedoGame:
         Returns:
             bool: True if next turn is needed, False if the game is over
         """
+
         move_points = self.roll_dice()
         print(self.cards)
         # print(type(self.cards))
@@ -102,7 +103,6 @@ class CluedoGame:
 
         return True
 
-
     def load_setup(self, path = DEFAULT_SETUP):
         """Load setup JSON from external file
 
@@ -125,7 +125,6 @@ class CluedoGame:
         self.gameboard.rooms = []
         for this_room in map_setup["rooms"]:
             self.gameboard.rooms.append(Room(this_room["name"], this_room["doors"]))
-
 
     def load_cards(self):
         """load cards information from external file
@@ -240,6 +239,7 @@ class CluedoGame:
             return True
         else:
             return False
+        
     def notify_logbooks(self, info):
         """Update all logbook with the info just got
 

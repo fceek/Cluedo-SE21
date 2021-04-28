@@ -3,6 +3,7 @@
 
 # Meeting Records / Notes
 .meeting/
+.design/
 
 # =========== Default Python gitignore template below ==============
 
