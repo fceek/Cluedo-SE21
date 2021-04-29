@@ -13,8 +13,19 @@ class GameBoard:
         self.rooms = []
 
     def check_reachable_rooms(self, start, move_points) -> list:
+        """Find all rooms the player can enter within their move points
+
+        Args:
+            start (Player): current player in action
+            move_points (int): the step number player can use
+
+        Returns:
+            list: list of rooms player can enter
+        """
         result_list = []
         # print(isinstance(start, Player))
+
+        # if player is not already in a room, find by coordinate
         if isinstance(start, Player) and not start.in_room:
             for this_room in self.rooms:
                 for this_door in this_room.entrance:
@@ -22,8 +33,8 @@ class GameBoard:
                     if distance <= move_points:
                         result_list.append(this_room)
                     break
-
         #if isinstance(start, Room):
+        # if player is already in a room, find by all doors the room player is in
         else:
             start = start.in_room
             for my_door in start.entrance:
@@ -41,7 +52,7 @@ class GameBoard:
                                 result_list.append(this_room)
                         break
 
-
+        # add secret paths
         if start == self.rooms[0]:
             result_list.append(self.rooms[4])
 
@@ -75,5 +86,6 @@ class GameBoard:
             constr += "\n"
         return constr
 
+    # TODO()
     def check_reachable_square(self,start,move_points) -> list:
         pass

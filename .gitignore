@@ -2,6 +2,7 @@
 .vscode/
 
 # Meeting Records / Notes
+docs/
 .meeting/
 .design/
 

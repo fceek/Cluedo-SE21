@@ -1,5 +1,6 @@
 class Room:
     """rooms in the gameboard
+    
     """
     def __init__(self, name, entrance):
         self.name = name

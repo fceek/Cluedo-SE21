@@ -1,8 +1,8 @@
 class Card:
     """card indicating informations in the game
 
-    Attributes:
-        category (str?): falls in one of ["character", "weapon", "room"]
+    Attrs:
+        category (str): falls in one of ["character", "weapon", "room"]
         description (str): name of the card, no idea why I chose such long name
         is_answer (bool): is this card one of the correct answer cards
     """
@@ -12,9 +12,15 @@ class Card:
         self.is_answer = False
 
     def make_answer(self):
+        """mark this card to be correct answer
+        
+        """
         self.is_answer = not self.is_answer
 
     def __repr__(self) -> str:
+        """DEBUG: for command line output
+
+        """
         if self.is_answer:
             constr = "Answer"
         else:

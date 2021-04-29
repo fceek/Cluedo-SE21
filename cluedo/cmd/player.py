@@ -91,6 +91,14 @@ class Ai(Player):
             return
 
     def selected_card(self,exist) -> Card:
+        """Ai will selected card to show in random
+
+        Args:
+            exist (list): cards to choose from
+
+        Returns:
+            Card: the card selected by Ai
+        """
         # for key, value in exist.items():
         #     print(key + " : " + str(value))             # show all cards
         return random.choice(list(exist.items()))    # show selected card

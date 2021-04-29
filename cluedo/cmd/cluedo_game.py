@@ -10,20 +10,17 @@ import json, random, os
 class CluedoGame:
     """Single round of cluedo game
 
-    Attributes:
-        players (list): -
-        gameboard (gameboard): -
-        cards (list): -
-        next_player_iter: iterable object to keep track on player's turns
-        next_player: next player to process turn # may redundant
+    Args:
+        player_count (int): number of players in this game
+
+    Attrs:
+        players (list): all players participating
+        gameboard (gameboard): the gameboard grid
+        cards (list): all cards used in this game
+        next_player (int): index of the player going to process the turn
     """
 
     def __init__(self, player_count, character_chosen):
-        """init
-
-        Args:
-            player_count (int): number of players in this game
-        """
         self.player_count = player_count
         self.players = []
         self.gameboard = GameBoard()
@@ -113,6 +110,7 @@ class CluedoGame:
 
     def load_gameboard(self):
         """load gameboard setup from external file
+
         """
         map_setup = self.setup["setup"]["map"]
 
@@ -123,6 +121,7 @@ class CluedoGame:
 
     def load_cards(self):
         """load cards information from external file
+
         """
         for this_token in self.setup["setup"]["tokens"]:
             self.cards["tokens"].append(Card("token", this_token["name"]))
@@ -136,6 +135,7 @@ class CluedoGame:
 
         Args:
             player_count (int): number of players
+            character_chosen (str): character selected by player
         """
         player_setup = self.setup["setup"]["tokens"].copy()
         random.shuffle(player_setup)
@@ -153,12 +153,14 @@ class CluedoGame:
     # TODO()
     def register_logbooks(self):
         """Generate Logbook for each player and do the init
+
         """
         for this_player in self.players:
             pass
 
     def generate_answer(self):
         """choose one card of each type to be the correct answer
+
         """
         random.choice(self.cards["tokens"]).make_answer()
         random.choice(self.cards["weapons"]).make_answer()
@@ -166,6 +168,7 @@ class CluedoGame:
 
     def deal_card(self):
         """deal non-answer cards to players
+
         """
         all_cards_with_answers = (
             self.cards["tokens"]
@@ -195,9 +198,13 @@ class CluedoGame:
         """
         return random.randint(1,6) + random.randint(1,6)
     
-    # TODO()
-    def display_info(self,player,move_points,reachable_rooms):
+    def display_info(self, player, move_points, reachable_rooms):
         """show essential info that the player need before move in a turn
+
+        Args:
+            player (Player): current player in action
+            move_points (int): the step number player can use
+            reachable_rooms (list): list of rooms player can enter
         """
         print('your are player'+str(player))
         print('you have this cards in hand'+str(player.cards_in_hand))
@@ -209,6 +216,7 @@ class CluedoGame:
 
         Args:
             suspect (dict): the suspection, consists of token, weapon and room
+            current_player (Player): current player in action
         """
         response = []
         i = self.players.index(current_player) + 1
