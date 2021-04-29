@@ -99,6 +99,4 @@ class Ai(Player):
         Returns:
             Card: the card selected by Ai
         """
-        # for key, value in exist.items():
-        #     print(key + " : " + str(value))             # show all cards
         return random.choice(list(exist.items()))    # show selected card

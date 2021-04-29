@@ -23,8 +23,6 @@ class GameBoard:
             list: list of rooms player can enter
         """
         result_list = []
-        # print(isinstance(start, Player))
-
         # if player is not already in a room, find by coordinate
         if isinstance(start, Player) and not start.in_room:
             for this_room in self.rooms:
@@ -38,15 +36,11 @@ class GameBoard:
         else:
             start = start.in_room
             for my_door in start.entrance:
-                # print(my_door)
                 for this_room in self.rooms:
                     if this_room == start:
                         continue
-                    # print(this_room)
                     for this_door in this_room.entrance:
-                        # print(this_door)
                         distance = abs(my_door[0] - this_door[0]) + abs(my_door[1] - this_door[1])
-                        # print(distance)
                         if distance <= move_points:
                             if this_room not in result_list:
                                 result_list.append(this_room)

@@ -112,7 +112,6 @@ class New_game(Screen):
         Args:
             character (str): name of the token selected by player
         """
-        #print(self.ids[character])
         self.character_chosen = character
         char_button = self.ids[character + '_btn']
         if self.previous_btn:
@@ -128,7 +127,7 @@ class New_game(Screen):
 
         """
         player_count = self.ids['slider_player_num'].value
-        if self.character_chosen:
+        if self.character_chosen: # have to choose before start
             self.manager.get_screen('game_body').load_page(player_count, self.character_chosen)
             self.manager.transition = FadeTransition()
             self.manager.current = 'game_body'
@@ -179,7 +178,8 @@ class Game_body(Screen):
         self.info_text = self.ids['basic_info']
         self.gameboard.rows = size[1]
         self.gameboard.cols = size[0]
-        Logger.info(self.game_reference.cards)
+        # need this for demo use:
+        # Logger.info(self.game_reference.cards)
         for row in range(0, size[1]):
             for col in range(0, size[0]):
                 gameboard_data = self.game_reference.gameboard.board[row][col]
@@ -187,12 +187,7 @@ class Game_body(Screen):
                     self.gameboard.add_widget(Grid_button(row, col))
                 else:
                     self.gameboard.add_widget(Trans_button(row, col))
-                #gameboard.add_widget(Button(text = str(row) + ',' + str(col)))
         self.info_text.text = 'Playing as [b]' + character_chosen.capitalize() + '[/b]'
-
-        # while character_chosen.capitalize() not in self.game_reference.players[self.game_reference.next_player].name:
-        #     self.game_reference.next_player += 1
-
         self.process_turn(self.game_reference.players[self.game_reference.next_player])
 
     def process_turn(self, player):
@@ -207,6 +202,7 @@ class Game_body(Screen):
         move_points = self.game_reference.roll_dice()
         backup_move_points = move_points
         reachable_rooms = []
+        # ensure player can at least get into one of the rooms
         while len(reachable_rooms) == 0 :
             reachable_rooms = self.game_reference.gameboard.check_reachable_rooms(player, move_points)
             move_points += 1
@@ -241,18 +237,20 @@ class Game_body(Screen):
             move_points (int): the step number player can use
             reachable_rooms (list): list of rooms player can enter
         """
+        # display dice points
         self.layer_control.page = 1
         current_layer = self.ids['player_overlay']
         self.ids['dice_points'].text = '[b]' + str(move_points) + '[/b]'
+        # display cards on hold
         hand = self.ids['cards_in_hand']
         hand.clear_widgets()
         for this_card in player.cards_in_hand:
             hand.add_widget(Card_display(this_card.category, this_card.description))
+        # display rooms can go
         choose_room = self.ids['rooms_to_go']
         choose_room.clear_widgets()
         for this_room in reachable_rooms:
             btn_callback = lambda root, this_player = player, temp_room = this_room:self.to_room_on_press(this_player, temp_room)
-            # btn_callback = partial(self.to_room_on_press, player, this_room)
             this_btn = Button(text = this_room.name,
                               size_hint = (None, None),
                               size = (140, 48),
@@ -290,17 +288,13 @@ class Game_body(Screen):
             action (str): 'suspect' for suggestion, 'accuse' for accusation
             submission (dict): the dictionary including token, weapon and room
         """
-        # Logger.info('received ')
-        # Logger.info(action)
         if action == 'suspect':
             response = self.game_reference.check_suspect(submission, self.game_reference.players[self.game_reference.next_player])
-            # Logger.info(response)
             self.manager.current = 'game_body'
             info_str = ''
             for this_response in response:
                 key = str(list(this_response.keys())[0])
                 value = list(this_response.values())[0]
-                # Logger.info(value)
                 info_str = (info_str
                         + '[b]' + key + '[/b]'
                         + ' showed you: '
@@ -342,12 +336,9 @@ class Game_body(Screen):
         self.prev_btn.bind(on_press = self.prev_callback)
 
         self.next_btn.background_normal = 'images/Yes_Btn.png'
-        # Logger.info(self.next_btn.on_press)
         self.next_btn.unbind(on_press = self.next_callback)
-        # Logger.info(self.next_btn.on_press)
         self.next_callback = lambda root, temp_cards = cards:self.process_accuse(temp_cards)
         self.next_btn.bind(on_press =  self.next_callback)
-        # Logger.info(self.next_btn.on_press)
 
     def process_accuse(self, cards):
         """Preparing to display 'make accusation' page for the player to choose
@@ -472,7 +463,6 @@ class Player_action(Screen):
         Callback:
             Game_body.submit_callback()
         """
-        # Logger.info(self.choice)
         if self.choice['room'] and self.choice['weapon'] and self.choice['token']:
             self.manager.get_screen('game_body').submit_callback(self.action, self.choice)
 

@@ -40,9 +40,6 @@ class CluedoGame:
         self.deal_card()
 
         self.next_player = 0
-        # while self.process_turn(self.players[self.next_player]):
-        #    print("Process to next turn")
-        # print("Game Ends")
 
     def process_turn(self, player) -> bool:
         """Process one single turn of the game
@@ -56,24 +53,12 @@ class CluedoGame:
 
         move_points = self.roll_dice()
         print(self.cards)
-        # print(type(self.cards))
-        # for card in self.cards["token"]:
-        #     # if card['token'].is_answer:
-        #     #     print(str(card['token'])+' is a answer card')
-        #     # if card['weapon'].is_answer:
-        #     #     print(str(card['weapon']) + ' is a answer card')
-        #     # if card['room'].is_answer:
-        #     #     print(card['room']+' is a answer card')
-        #     print(str(card))
 
         reachable_rooms = self.gameboard.check_reachable_rooms(player, move_points)
         self.display_info(player, move_points, reachable_rooms)
-        #target_room = self.cards['rooms'][int(input('choose a target room: ')) - 1]
-        #target_room = reachable_rooms[int(input('choose a room to go'))]
         if len(reachable_rooms) != 0 :
             target_room = self.cards['rooms'][int(input('choose a target room: ')) - 1]
             self.gameboard.move_player_to_room(player, target_room)
-
             suspect = player.process_suspect(self.cards, target_room)
             self.check_suspect(suspect, player)
         else:
@@ -141,13 +126,11 @@ class CluedoGame:
         random.shuffle(player_setup)
         for i in range(6):
             self.players.append(Ai(player_setup[i]["name"], player_setup[i]["start"]))
-            # self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
         for this_player in self.players:
             if character_chosen.capitalize() in this_player.name:
                 self.players.remove(this_player)
                 for i in range(6 - player_count):
                     trash_can = self.players.pop()
-                #self.players.insert(0, Human(this_player.name, this_player.coordinate))
                 self.players.insert(0, Ai(this_player.name, this_player.coordinate))
 
     # TODO()
@@ -217,6 +200,9 @@ class CluedoGame:
         Args:
             suspect (dict): the suspection, consists of token, weapon and room
             current_player (Player): current player in action
+
+        Return:
+            List of response, from every player that can help
         """
         response = []
         i = self.players.index(current_player) + 1
@@ -246,6 +232,10 @@ class CluedoGame:
 
         Args:
             accuse (dict): the accusation, consists of token, weapon and room
+
+        Return:
+            True: player guess is correct, wins the game
+            False: player guess is wrong, will be skipped
         """
         if accuse['token'].is_answer and accuse['weapon'].is_answer and accuse['room'].is_answer:
             return True
