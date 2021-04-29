@@ -1,0 +1,269 @@
+#:kivy 2.0.0
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<Main_menu>
+    BoxLayout:
+        orientation: 'vertical'
+        size: self.parent.size
+        pos: self.parent.pos
+        padding: 30
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        Image:
+            size_hint: .6, .2
+            pos_hint: {'top': .9, 'center_x': .5}
+            source: 'images/title.png'
+        BoxLayout:
+            size_hint: .4, .2
+            pos_hint: {'top': .4, 'center_x': .5}
+            orientation: 'horizontal'
+            Button:
+                on_press: 
+                    root.manager.current = 'new_game'
+                size_hint: .15, .35
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'images/Single_Player.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+                
+            Button:
+                on_press: 
+                    root.manager.current = 'under_construction'
+                size_hint: .15, .35
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'images/Multi_Player.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+<New_game>
+    BoxLayout:
+        orientation: 'vertical'
+        size: self.parent.size
+        pos: self.parent.pos
+        padding: 30
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        Image:
+            size_hint: .6, .15
+            pos_hint: {'center_x': .5}
+            source: 'images/Create_Game.png'
+
+        BoxLayout:
+            size_hint: 1, .5
+            orientation: 'horizontal'
+            spacing: 30
+            GridLayout:
+                cols: 3
+                Button:
+                    id: green_btn
+                    background_normal: 'images/tokens/Green_P.png'
+                    on_press: root.choose_character('green')
+                Button:
+                    id: mustard_btn
+                    background_normal: 'images/tokens/Mustard_P.png'
+                    on_press: root.choose_character('mustard')
+                Button:
+                    id: peacock_btn
+                    background_normal: 'images/tokens/Peacock_P.png'
+                    on_press: root.choose_character('peacock')
+                Button:
+                    id: plum_btn
+                    background_normal: 'images/tokens/Plum_P.png'
+                    on_press: root.choose_character('plum')
+                Button:
+                    id: scarlet_btn
+                    background_normal: 'images/tokens/Scarlet_P.png'
+                    on_press: root.choose_character('scarlet')
+                Button:
+                    id: white_btn
+                    background_normal: 'images/tokens/White_P.png'
+                    on_press: root.choose_character('white')
+            
+            BoxLayout:
+                orientation: 'vertical'
+                Image:
+                    source: 'images/Number_Text.png'
+                    size_hint_x: 0.6
+                    pos_hint: {'center_x': 0.5}
+                Label:
+                    color: .7, 0, 0, 1
+                    font_size: 60
+                    text: str(slider_player_num.value)
+                Slider:
+                    id: slider_player_num
+                    min: 2
+                    max: 6
+                    step: 1
+                    background_horizontal: 'images/Slider_Base.png'
+                    background_width: 12
+                    cursor_image: 'images/Slider_Cursor.png'
+                    cursor_height: 32
+        BoxLayout:
+            size_hint: .4, .2
+            pos_hint: {'top': .4, 'center_x': .5}
+            orientation: 'horizontal'
+            Button:
+                on_press: 
+                    root.start_game()
+                size_hint: .15, .35
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'images/Start.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+            Button:
+                on_press: 
+                    root.manager.current = 'main_menu'
+                size_hint: .15, .35
+                background_color: 0, 0, 0, 0
+                Image:
+                    source: 'images/Back.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+        
+
+<Under_Construction>
+    BoxLayout:
+        orientation: 'vertical'
+        size: self.parent.size
+        pos: self.parent.pos
+        padding: 30
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        Image:
+            size_hint: .6, .15
+            pos_hint: {'center_x': .5}
+            source: 'images/Under_Construction.png'
+        
+        Button:
+            on_press: 
+                root.manager.current = 'main_menu'
+            size_hint: .15, .15
+            pos_hint: {'center_x': .5}
+            background_color: 0, 0, 0, 0
+            Image:
+                source: 'images/Back.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+<Game_body>
+    PageLayout:
+        id: layer_control
+        page: 0
+        border: 5
+        swipe_threshold: .4
+        BoxLayout:
+            orientation: 'vertical'
+            id: game_background
+            Label:
+                size_hint: 1, .08
+                id: basic_info
+                text: 'Placeholder Text'
+            GridLayout:
+                id: gameboard
+                pos_hint: {'center_x': .5}
+                size_hint: .8, .92
+                canvas.before:
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                        source: 'images/gameboard.jpg'
+        BoxLayout:
+            orientation: 'vertical'
+            id: player_overlay
+            padding: 20, 100, 20, 100
+            spacing: 50
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.65
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, .2
+                padding: 100, 0, 100, 0
+                Image:
+                    source: 'images/Dice_Points.png'
+                Label:
+                    id: dice_points
+                    text: 'unknown'
+                    font_size: 60
+                    markup: True
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, 0.4
+                Image:
+                    source: 'images/Cards_in_Hand.png'
+                    size_hint: 0.3, 1
+                GridLayout:
+                    id: cards_in_hand
+                    size_hint: 0.7, 1
+                    rows: 2
+                    padding: 20
+                    spacing: 10
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, 0.3
+                Image:
+                    source: 'images/Rooms_can_Enter.png'
+                    size_hint: 0.3, 1
+                BoxLayout:
+                    id: rooms_to_go
+                    spacing: 20
+                    size_hint: 0.7, 1
+                    orientation: 'horizontal'
+
+        BoxLayout:
+            orientation: 'vertical'
+            id: player_action
+            text: 'test 3'
+
+<Trans_button>
+    background_color: 0, 0, 0, 0
+    on_press: self.parent.parent.parent.parent.pressed(self)
+
+<Grid_button>
+    background_normal: 'images/Grid_button.png'
+    on_press: self.parent.parent.parent.parent.pressed(self)
+
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 1, 1, 1, 1
+
+<Card_display>:
+    orientation: 'vertical'
+    size: 120, 160
+    size_hint: None, None
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: self.image_source
