@@ -1,30 +1,9 @@
 DEFAULT_SETUP = "data/default.json"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from player import Player, Ai, Human
-from gameboard import GameBoard
-from card import Card
-from room import Room
+from cluedo.cmd.player import Player, Ai, Human
+from cluedo.cmd.gameboard import GameBoard
+from cluedo.cmd.card import Card
+from cluedo.cmd.room import Room
 
 import json, random, os
 
@@ -39,7 +18,7 @@ class CluedoGame:
         next_player: next player to process turn # may redundant
     """
 
-    def __init__(self, player_count):
+    def __init__(self, player_count, character_chosen):
         """init
 
         Args:
@@ -58,15 +37,15 @@ class CluedoGame:
 
         self.load_gameboard()
         self.load_cards()
-        self.load_players(player_count)
+        self.load_players(player_count, character_chosen)
 
         self.generate_answer()
         self.deal_card()
 
         self.next_player = 0
-        while self.process_turn(self.players[self.next_player]):
-           print("Process to next turn")
-        print("Game Ends")
+        # while self.process_turn(self.players[self.next_player]):
+        #    print("Process to next turn")
+        # print("Game Ends")
 
     def process_turn(self, player) -> bool:
         """Process one single turn of the game
@@ -95,11 +74,7 @@ class CluedoGame:
         #target_room = self.cards['rooms'][int(input('choose a target room: ')) - 1]
         #target_room = reachable_rooms[int(input('choose a room to go'))]
         if len(reachable_rooms) != 0 :
-            target_room = self.cards['rooms'][int(input('               Choose a Trget Room:         ')) - 1]
-            print('-------------------------------------------------')
-            print('           You Choose to Go to Room ↓')
-            print(target_room)
-            print('-------------------------------------------------')
+            target_room = self.cards['rooms'][int(input('choose a target room: ')) - 1]
             self.gameboard.move_player_to_room(player, target_room)
 
             suspect = player.process_suspect(self.cards, target_room)
@@ -108,38 +83,19 @@ class CluedoGame:
             print("you have no where to go")
             a=input()
 
-
-
-        
         accuse = player.process_accuse(self.cards)
         if accuse:
-            #print(self.check_accuse(accuse))
+            print(self.check_accuse(accuse))
             if self.check_accuse(accuse):
-                print('-------------------------------------------------')
-                print('Player' + str(player))
-                print('          Your Final Accuse is Correct')
-                print('           ！！！You Win The Game！！!')
-                print('-------------------------------------------------')
-                print('-------------------------------------------------')
-                print('                    Game END')
-                print('-------------------------------------------------')
+                print('You Win The Game !')
                 return False
             else:
-                print('-------------------------------------------------')
-                print('           Sorry Your Accuse Is Wrong')
-                print('               YOU LOST THE GAME')
-                print('-------------------------------------------------')
-                print('               Round to continue')
-                print('Player'+str(player))
-                print('                Out of The Game')
-                print('-------------------------------------------------')
+                print('Sorry your accuse is wrong')
                 player.skipped = True
 
         self.next_player = (self.next_player + 1)%len(self.players)
         while self.players[self.next_player].skipped:
-            self.next_player = (self.next_player + 1)%len(self.players)  # will need to resolve looping
-
-
+            self.next_player = (self.next_player + 1)%len(self.players)  
         return True
 
     def load_setup(self, path = DEFAULT_SETUP):
@@ -175,7 +131,7 @@ class CluedoGame:
         for this_room in self.setup["setup"]["map"]["rooms"]:
             self.cards["rooms"].append(Card("room", this_room["name"]))
 
-    def load_players(self, player_count):
+    def load_players(self, player_count, character_chosen):
         """load player information from external file
 
         Args:
@@ -183,8 +139,16 @@ class CluedoGame:
         """
         player_setup = self.setup["setup"]["tokens"].copy()
         random.shuffle(player_setup)
-        for i in range(player_count):
-            self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
+        for i in range(6):
+            self.players.append(Ai(player_setup[i]["name"], player_setup[i]["start"]))
+            # self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
+        for this_player in self.players:
+            if character_chosen.capitalize() in this_player.name:
+                self.players.remove(this_player)
+                for i in range(6 - player_count):
+                    trash_can = self.players.pop()
+                #self.players.insert(0, Human(this_player.name, this_player.coordinate))
+                self.players.insert(0, Ai(this_player.name, this_player.coordinate))
 
     # TODO()
     def register_logbooks(self):
@@ -235,18 +199,10 @@ class CluedoGame:
     def display_info(self,player,move_points,reachable_rooms):
         """show essential info that the player need before move in a turn
         """
-        print('--------------------GAME START-------------------')
-        print('               Start With ' + str(self.player_count) + ' Players      ')
-        print('-------------------------------------------------')
-        print('Your are player ↓   Your starting position is ↓ ,' + str(player))
-        print('-------------------------------------------------')
-        print('            You Got Those Cards In Hand\n' + str(player.cards_in_hand))
-        print('-------------------------------------------------')
-        print("                   You Can Move \n                        " + str(
-            move_points) + "\n                      steps")
-        print('-------------------------------------------------')
-        print("            You Can Reach Those Rooms \n" + str(reachable_rooms))  # need some formatting
-        print('-------------------------------------------------')
+        print('your are player'+str(player))
+        print('you have this cards in hand'+str(player.cards_in_hand))
+        print("you can move " +str(move_points)+" steps")
+        print("you can reach those rooms "+str(reachable_rooms))  # need some formatting
 
     def check_suspect(self, suspect, current_player):
         """Check and response to player suspection
@@ -254,7 +210,7 @@ class CluedoGame:
         Args:
             suspect (dict): the suspection, consists of token, weapon and room
         """
-
+        response = []
         i = self.players.index(current_player) + 1
         while i != self.players.index(current_player):
             exist = {}  # next player empty the selection dict
@@ -269,15 +225,13 @@ class CluedoGame:
                 if suspect['room'] in self.players[i].cards_in_hand:
                     exist['room'] = suspect['room']
                 if len(exist) != 0:
-                    print('Your are player ↓   Your starting position is ↓ ,' + str(self.players[i])+'\n')
-                    print('----Because the Current Player is Suspect----\n---------------Your Hand Correctly--------------')
-
-                    print("------So You Need to Show Current Player------")
-                    print("---------------One of This Cards--------------")
-                    print('-------------------------------------------------')
-                    self.players[i].selected_card(exist)    # next player select card to show current player
-                    print('-------------------------------------------------')
+                    print('you are player'+str(self.players[i]))
+                    print("----you need to show current player this cards------")
+                    print(*exist)
+                    print("----------------------------------------------------")
+                    response.append({self.players[i].name: self.players[i].selected_card(exist)})    # next player select card to show current player
                 i += 1
+        return response
 
     def check_accuse(self, accuse):
         """Check and response to player accusation

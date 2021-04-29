@@ -1,6 +1,6 @@
 
-from player import Player
-from room import Room
+from cluedo.cmd.player import Player
+from cluedo.cmd.room import Room
 
 
 class GameBoard:
@@ -15,7 +15,7 @@ class GameBoard:
     def check_reachable_rooms(self, start, move_points) -> list:
         result_list = []
         # print(isinstance(start, Player))
-        if isinstance(start, Player):
+        if isinstance(start, Player) and not start.in_room:
             for this_room in self.rooms:
                 for this_door in this_room.entrance:
                     distance = abs(start.coordinate[0] - this_door[0]) + abs(start.coordinate[1] - this_door[1])
@@ -23,7 +23,9 @@ class GameBoard:
                         result_list.append(this_room)
                     break
 
-        if isinstance(start, Room):
+        #if isinstance(start, Room):
+        else:
+            start = start.in_room
             for my_door in start.entrance:
                 # print(my_door)
                 for this_room in self.rooms:

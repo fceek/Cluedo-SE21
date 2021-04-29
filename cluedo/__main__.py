@@ -1,4 +1,4 @@
-from app import Cluedo
+from cluedo.ingame import CluedoApp
 
 if __name__ == '__main__':
-    Cluedo.run()
+    CluedoApp().run()

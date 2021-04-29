@@ -3,19 +3,19 @@ from cluedo_game import CluedoGame
 # game = CluedoGame(int(sys.argv[1]) or 5)
 
 def print_setup():
-    game = CluedoGame(2)
+    game = CluedoGame(6)
 
     # print("GameBoard:")
     # print(game.gameboard)
     # print("\nRooms:")
     # print(game.gameboard.rooms)
-    #print("\nCards:")
-    #print(type(game.cards))
-    #print(game.cards)
+    # print("\nCards:")
+    # print(type(game.cards))
+    # print(game.cards)
     # print("\nPlayers:")
 
-    # for this_player in game.players:
-    #     print(this_player, this_player.cards_in_hand)
+    #for this_player in game.players:
+    #print(this_player, this_player.cards_in_hand)
 
     # print(type(game.players))
     #target_room = game.cards['rooms'][int(input('choose a target room: ')) - 1]
