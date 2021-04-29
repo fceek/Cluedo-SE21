@@ -71,6 +71,9 @@ class Human(Player):
 
 
 class Ai(Player):
+    """Not really an Ai, all he can do is show you random cards when he can
+
+    """
     def process_suspect(self, cards,target_room):
         weapon_card = cards['weapons'][int(input('choose weapn: ')) - 1]
         print(weapon_card)

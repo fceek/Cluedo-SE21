@@ -6,6 +6,9 @@ docs/
 .meeting/
 .design/
 
+# Unit Test log
+logs/
+
 # =========== Default Python gitignore template below ==============
 
 # Byte-compiled / optimized / DLL files

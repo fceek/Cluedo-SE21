@@ -7,21 +7,23 @@ Cluedo, Assignment Project, Spring 2021, Software Engineering, UoSussex
 ```markdown
 📦Cluedo-SE21                 - Repository
  ┣ 📂cluedo                     - App Source Folder
- ┃ ┣ 📂resources                  - Binary Resources: Image/Audio...
- ┃ ┣ 📜app.py                     - Application Body
+ ┃ ┣ 📂cmd                        - Backend command line util (not full game)
+ ┃ ┃ ┣ 📂data                       - Game Data
+ ┃ ┃ ┃ ┗ 📜default.json               - Default Game Setup
+ ┃ ┃ ┗ 📜xxx.py                     - Code for command line util
+ ┃ ┣ 📂images                     - Binary Resources: Image
+ ┃ ┣ 📜ingame.py                  - App GUI controller
+ ┃ ┣ 📜ingame.ky                  - App GUI layout sheet
  ┃ ┣ 📜__init__.py                - Package Marker
  ┃ ┗ 📜__main__.py                - Application Entrance
- ┣ 📂data                       - Test or Game Data (not used)
- ┣ 📂docs                       - Documents Folder
- ┃ ┣ 📜changeLog.md               - Do not touch
- ┃ ┗ 📜todo.md                    - Spam ideas here
+ ┣ 📂dev                        - More complete command line version game
  ┣ 📂logs                       - Log Files Folder
  ┃ ┗ 📂pytest                     - Log Files of Unit Test
  ┃ ┃ ┣ 📜0210_005235.ptlog          - Date_Time.ptlog
  ┃ ┃ ┗ 📜0210_005334.ptlog
  ┣ 📂tests                      - Unit Test Source Folder
  ┃ ┣ 📜conftest.py                - General test setup
- ┃ ┣ 📜test_app.py                - Test for app.py
+ ┃ ┣ 📜test_xxx.py                - Test for xxx.py
  ┃ ┗ 📜__init__.py
  ┣ 📜.gitignore                 - gitignore file
  ┣ 📜LICENSE                    - GNU GPLv3 License
@@ -30,18 +32,12 @@ Cluedo, Assignment Project, Spring 2021, Software Engineering, UoSussex
  ┗ 📜README.md                  - Readme
 ```
 
-## Change Log and Manual(?)
+## Manual
 
-### init, set up *10/02*
+Need to install Kivy to run app
 
-- Initialise project repository
-- *Hello World*
-  - `py -m cluedo` **run app**
-- Structure project
-- Set up pytest for unit test
-  - and logging system
-  - `pytest` **run unit test**
-- Simple Makefile
-  - `nmake run` **run app**
-  - `nmake test` **run unit test**
-  - `nmake logclear` **clear all empty test logs**
+- `py -m cluedo` **run app**
+- `pytest` **run unit test**
+- `nmake run` **run app**
+- `nmake test` **run unit test**
+- `nmake logclear` **clear all empty test logs**

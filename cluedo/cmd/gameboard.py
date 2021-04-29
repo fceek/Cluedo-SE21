@@ -65,6 +65,9 @@ class GameBoard:
         player.in_room = room
 
     def move_player_to_coordinate(self, player, coord):
+        """DEPRECATED
+
+        """
         player.coordinate = coord
 
     def __repr__(self) -> str:
@@ -80,6 +83,8 @@ class GameBoard:
             constr += "\n"
         return constr
 
-    # TODO()
     def check_reachable_square(self,start,move_points) -> list:
+        """DEPRECATED
+
+        """
         pass
