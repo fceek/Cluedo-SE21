@@ -165,23 +165,45 @@
                 center_x: self.parent.center_x
                 center_y: self.parent.center_y
 
+<Prev_Btn>
+    size_hint: .15, .3
+    pos_hint: {'center_y': .5}
+    border: 0, 0, 0, 0
+    background_normal: 'images/Black_Box.png'
+
+<Next_Btn>
+    size_hint: .15, .3
+    pos_hint: {'center_y': .5}
+    border: 0, 0, 0, 0
+    background_normal: 'images/Next.png'
+
 <Game_body>
     PageLayout:
         id: layer_control
         page: 0
         border: 5
-        swipe_threshold: .4
+        swipe_threshold: 1
         BoxLayout:
             orientation: 'vertical'
             id: game_background
-            Label:
-                size_hint: 1, .08
-                id: basic_info
-                text: 'Placeholder Text'
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: .7, .1
+                pos_hint: {'center_x': .5}
+                Prev_Btn:
+                    id: prev_btn
+                Label:
+                    size_hint: .7, 1
+                    id: basic_info
+                    text: 'Placeholder Text'
+                    font_size: 16
+                    markup: True
+                Next_Btn:
+                    id: next_btn
             GridLayout:
                 id: gameboard
                 pos_hint: {'center_x': .5}
-                size_hint: .8, .92
+                size_hint: .8, .9
                 canvas.before:
                     Rectangle:
                         pos: self.pos
@@ -233,10 +255,54 @@
                     size_hint: 0.7, 1
                     orientation: 'horizontal'
 
+<Player_action>
+    BoxLayout:
+        orientation: 'vertical'
+        id: player_action
+        padding: 160, 20, 160, 20
+        spacing: 30
+        Image:
+            id: action_image
+            source: 'images/Choose_your_Suspect.png'
+            size_hint: .6, .2
+            pos_hint: {'center_x': .5}
         BoxLayout:
-            orientation: 'vertical'
-            id: player_action
-            text: 'test 3'
+            id: placeholder_choice
+            size_hint: .4, .2
+            pos_hint: {'center_x': .5}
+            orientation: 'horizontal'
+        GridLayout:
+            id: cards_to_choose
+            size_hint: .8, .5
+            pos_hint: {'center_x': .5}
+            rows: 2
+        Button:
+            size_hint: .14, .03
+            pos_hint: {'center_x': .5}
+            border: 0, 0, 0, 0
+            background_normal: 'images/Submit.png'
+            on_press: root.submit()
+        Label:
+            size_hint: 1, .05
+            text: ''
+
+<Game_ending>
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 0, 0, 0, 100
+        spacing: 100
+        Image:
+            id: end_image
+            size_hint: .7, .4
+            pos_hint: {'center_x': .5}
+            source: 'images/Lose_Scr.png'
+        Button:
+            id: back_btn
+            size_hint: .2, .03
+            pos_hint: {'center_x': .5}
+            border: 0, 0, 0, 0
+            background_normal: 'images/Back_Btn.png'
+            on_press: root.ending_back()
 
 <Trans_button>
     background_color: 0, 0, 0, 0
@@ -258,12 +324,7 @@
 <BackgroundLabel@Label+BackgroundColor>
     background_color: 1, 1, 1, 1
 
-<Card_display>:
-    orientation: 'vertical'
+<Card_display>
     size: 120, 160
     size_hint: None, None
-    canvas.before:
-        Rectangle:
-            pos: self.pos
-            size: self.size
-            source: self.image_source
+    background_normal: self.image_source

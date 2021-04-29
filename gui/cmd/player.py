@@ -1,5 +1,6 @@
 from cmd.logbook import Logbook
 from cmd.card import Card
+import random
 
 
 class Player:
@@ -89,7 +90,7 @@ class Ai(Player):
         else:
             return
 
-    def selected_card(self,exist):
-        for key, value in exist.items():
-            print(key + " : " + str(value))             # show all cards
-        print(exist.get(input('Choose a card to show'),default=None))    # show selected card
+    def selected_card(self,exist) -> Card:
+        # for key, value in exist.items():
+        #     print(key + " : " + str(value))             # show all cards
+        return random.choice(list(exist.items()))    # show selected card

@@ -141,6 +141,7 @@ class CluedoGame:
         random.shuffle(player_setup)
         for i in range(6):
             self.players.append(Ai(player_setup[i]["name"], player_setup[i]["start"]))
+            # self.players.append(Human(player_setup[i]["name"], player_setup[i]["start"]))
         for this_player in self.players:
             if character_chosen.capitalize() in this_player.name:
                 self.players.remove(this_player)
@@ -208,7 +209,7 @@ class CluedoGame:
         Args:
             suspect (dict): the suspection, consists of token, weapon and room
         """
-
+        response = []
         i = self.players.index(current_player) + 1
         while i != self.players.index(current_player):
             exist = {}  # next player empty the selection dict
@@ -227,8 +228,9 @@ class CluedoGame:
                     print("----you need to show current player this cards------")
                     print(*exist)
                     print("----------------------------------------------------")
-                    self.players[i].selected_card(exist)    # next player select card to show current player
+                    response.append({self.players[i].name: self.players[i].selected_card(exist)})    # next player select card to show current player
                 i += 1
+        return response
 
     def check_accuse(self, accuse):
         """Check and response to player accusation
