@@ -1,6 +1,4 @@
 # Kivy imports
-from typing import Container
-from cmd.card import Card
 from kivy.app import App
 from kivy.config import Config
 Config.set('graphics', 'width', '1200')
@@ -28,11 +26,11 @@ from kivy.logger import Logger
 
 # Cluedo cmd imports
 
-from cmd.cluedo_game import CluedoGame
+from cluedo.cmd.cluedo_game import CluedoGame
 
 from functools import partial, partialmethod
 
-Builder.load_file('main.kv')
+Builder.load_file('ingame.kv')
 
 # Widget Components
 
@@ -97,6 +95,8 @@ class Game_body(Screen):
     def load_page(self, player_count, character_chosen):
         self.next_callback = None
         self.prev_callback = None
+        self.next_btn = self.ids['next_btn']
+        self.prev_btn = self.ids['prev_btn']
         if self.next_callback:
             self.next_btn.unbind(on_press = self.next_callback)
         if self.prev_callback:
@@ -135,7 +135,6 @@ class Game_body(Screen):
         while len(reachable_rooms) == 0 :
             reachable_rooms = self.game_reference.gameboard.check_reachable_rooms(player, move_points)
             move_points += 1
-        self.next_btn = self.ids['next_btn']
         if self.next_callback:
             self.next_btn.unbind(on_press = self.next_callback)
         if self.prev_callback:
@@ -214,7 +213,6 @@ class Game_body(Screen):
 
     def do_accuse(self, cards):
         self.info_text.text = 'Do you want to [b]Make Accuse[/b]?'
-        self.prev_btn = self.ids['prev_btn']
         self.prev_btn.background_normal = 'images/No_Btn.png'
         if self.prev_callback:
             self.prev_btn.unbind(on_press = self.prev_callback)
@@ -333,6 +331,3 @@ class CluedoApp(App):
         sm.add_widget(Under_Construction(name = 'under_construction'))
         sm.add_widget(Game_ending(name = 'game_ending'))
         return sm
-
-if __name__ == '__main__':
-    CluedoApp().run()

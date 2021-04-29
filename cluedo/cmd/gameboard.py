@@ -1,6 +1,6 @@
 
-from cmd.player import Player
-from cmd.room import Room
+from cluedo.cmd.player import Player
+from cluedo.cmd.room import Room
 
 
 class GameBoard:

@@ -1,9 +1,9 @@
 DEFAULT_SETUP = "data/default.json"
 
-from cmd.player import Player, Ai, Human
-from cmd.gameboard import GameBoard
-from cmd.card import Card
-from cmd.room import Room
+from cluedo.cmd.player import Player, Ai, Human
+from cluedo.cmd.gameboard import GameBoard
+from cluedo.cmd.card import Card
+from cluedo.cmd.room import Room
 
 import json, random, os
 
@@ -147,7 +147,8 @@ class CluedoGame:
                 self.players.remove(this_player)
                 for i in range(6 - player_count):
                     trash_can = self.players.pop()
-                self.players.insert(0, Human(this_player.name, this_player.coordinate))
+                #self.players.insert(0, Human(this_player.name, this_player.coordinate))
+                self.players.insert(0, Ai(this_player.name, this_player.coordinate))
 
     # TODO()
     def register_logbooks(self):

@@ -1,5 +1,5 @@
-from cmd.logbook import Logbook
-from cmd.card import Card
+from cluedo.cmd.logbook import Logbook
+from cluedo.cmd.card import Card
 import random
 
 
