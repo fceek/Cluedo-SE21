@@ -74,7 +74,11 @@ class CluedoGame:
         #target_room = self.cards['rooms'][int(input('choose a target room: ')) - 1]
         #target_room = reachable_rooms[int(input('choose a room to go'))]
         if len(reachable_rooms) != 0 :
-            target_room = self.cards['rooms'][int(input('choose a target room: ')) - 1]
+            target_room = self.cards['rooms'][int(input('               Choose a Trget Room:         ')) - 1]
+            print('-------------------------------------------------')
+            print('           You Choose to Go to Room ↓')
+            print(target_room)
+            print('-------------------------------------------------')
             self.gameboard.move_player_to_room(player, target_room)
 
             suspect = player.process_suspect(self.cards, target_room)
@@ -88,12 +92,26 @@ class CluedoGame:
         
         accuse = player.process_accuse(self.cards)
         if accuse:
-            print(self.check_accuse(accuse))
+            #print(self.check_accuse(accuse))
             if self.check_accuse(accuse):
-                print('You Win The Game !')
+                print('-------------------------------------------------')
+                print('Player' + str(player))
+                print('          Your Final Accuse is Correct')
+                print('           ！！！You Win The Game！！!')
+                print('-------------------------------------------------')
+                print('-------------------------------------------------')
+                print('                    Game END')
+                print('-------------------------------------------------')
                 return False
             else:
-                print('Sorry your accuse is wrong')
+                print('-------------------------------------------------')
+                print('           Sorry Your Accuse Is Wrong')
+                print('               YOU LOST THE GAME')
+                print('-------------------------------------------------')
+                print('               Round to continue')
+                print('Player'+str(player))
+                print('                Out of The Game')
+                print('-------------------------------------------------')
                 player.skipped = True
 
         self.next_player = (self.next_player + 1)%len(self.players)
@@ -196,10 +214,18 @@ class CluedoGame:
     def display_info(self,player,move_points,reachable_rooms):
         """show essential info that the player need before move in a turn
         """
-        print('your are player'+str(player))
-        print('you have this cards in hand'+str(player.cards_in_hand))
-        print("you can move " +str(move_points)+" steps")
-        print("you can reach those rooms "+str(reachable_rooms))  # need some formatting
+        print('--------------------GAME START-------------------')
+        print('               Start With ' + str(self.player_count) + ' Players      ')
+        print('-------------------------------------------------')
+        print('Your are player ↓   Your starting position is ↓ ,' + str(player))
+        print('-------------------------------------------------')
+        print('            You Got Those Cards In Hand\n' + str(player.cards_in_hand))
+        print('-------------------------------------------------')
+        print("                   You Can Move \n                        " + str(
+            move_points) + "\n                      steps")
+        print('-------------------------------------------------')
+        print("            You Can Reach Those Rooms \n" + str(reachable_rooms))  # need some formatting
+        print('-------------------------------------------------')
 
     def check_suspect(self, suspect, current_player):
         """Check and response to player suspection
@@ -222,11 +248,14 @@ class CluedoGame:
                 if suspect['room'] in self.players[i].cards_in_hand:
                     exist['room'] = suspect['room']
                 if len(exist) != 0:
-                    print('you are player'+str(self.players[i]))
-                    print("----you need to show current player this cards------")
-                    print(*exist)
-                    print("----------------------------------------------------")
+                    print('Your are player ↓   Your starting position is ↓ ,' + str(self.players[i])+'\n')
+                    print('----Because the Current Player is Suspect----\n---------------Your Hand Correctly--------------')
+
+                    print("------So You Need to Show Current Player------")
+                    print("---------------One of This Cards--------------")
+                    print('-------------------------------------------------')
                     self.players[i].selected_card(exist)    # next player select card to show current player
+                    print('-------------------------------------------------')
                 i += 1
 
     def check_accuse(self, accuse):

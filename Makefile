@@ -5,7 +5,7 @@ run-gui:
 
 run-cmd:
 	@cd dev
-	py cluedo_dev.py
+	py demo_run.py
 
 test:
 	@pytest

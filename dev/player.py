@@ -44,20 +44,36 @@ class Player:
 class Human(Player):
 
     def process_suspect(self, cards,target_room):
-        weapon_card = cards['weapons'][int(input('choose weapn: ')) - 1]
+        weapon_card = cards['weapons'][int(input('                Choose a Weapn: ')) - 1]
+        print('-------------------------------------------------')
+        print('        The weapon you suspect of murder ↓')
         print(weapon_card)
-        token_card = cards['tokens'][int(input('choose token: ')) - 1]
+        print('-------------------------------------------------')
+        token_card = cards['tokens'][int(input('                Choose a Token: ')) - 1]
+        print('-------------------------------------------------')
+        print('        The person you suspect of murder ↓')
         print(token_card)
+        print('-------------------------------------------------')
         return {'weapon': weapon_card, 'token': token_card, 'room': target_room}
 
     def process_accuse(self, cards):
-        if input('Do you want to accuse? Y/N') == 'Y':
-            weapon_card = cards['weapons'][int(input('choose weapn: ')) - 1]
+        if input('--Do You Want to Make Final Accuse? Y/N--') == 'Y' or 'y':
+            print('-------------------------------------------------')
+            weapon_card = cards['weapons'][int(input('                Choose a Weapn: ')) - 1]
+            print('-------------------------------------------------')
+            print('        The weapon you accuse of murder ↓')
             print(weapon_card)
-            token_card = cards['tokens'][int(input('choose token: ')) - 1]
+            print('-------------------------------------------------')
+            token_card = cards['tokens'][int(input('                Choose a Token: ')) - 1]
+            print('-------------------------------------------------')
+            print('        The person you accuse of murder ↓')
             print(token_card)
-            room_card = cards['rooms'][int(input('choose room: ')) - 1]
-            print(token_card)
+            print('-------------------------------------------------')
+            room_card = cards['rooms'][int(input('                  Choose a Room: ')) - 1]
+            print('-------------------------------------------------')
+            print('        The Room you accuse of murder ↓')
+            print(room_card)
+            print('-------------------------------------------------')
             return {'weapon': weapon_card, 'token': token_card, 'room': room_card}
 
         else:
@@ -66,7 +82,12 @@ class Human(Player):
     def selected_card(self,exist):
         for key, value in exist.items():
             print(key + " : " + str(value)) # show all cards
-        print(exist[input('Choose a card to show')]) # show selected card
+        print('-------------------------------------------------')
+        temp = exist[input('        Choose a card to show to Player:')]
+        print('-------------------------------------------------')
+        print('-----------You Choose to Show This Card----------') # show selected card
+        print(temp)
+        print('-------------------------------------------------')
 
 
 class Ai(Player):
@@ -78,7 +99,8 @@ class Ai(Player):
         return {'weapon': weapon_card, 'token': token_card,'room':target_room}
 
     def process_accuse(self,cards):
-        if input('Do you want to accuse? Y/N') == 'Y' or 'y':
+        if input('--Do You Want to Make Final Accuse? Y/N--') == 'Y' or 'y':
+            print('-------------------------------------------------')
             weapon_card = cards['weapons'][int(input('choose weapn: ')) - 1]
             print(weapon_card)
             token_card = cards['tokens'][int(input('choose token: ')) - 1]

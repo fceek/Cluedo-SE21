@@ -36,8 +36,9 @@ Cluedo, Assignment Project, Spring 2021, Software Engineering, UoSussex
 
 Need to install Kivy to run app
 
-- `py -m cluedo` **run app**
+- `py -m cluedo` **run app (with GUI)**
 - `pytest` **run unit test**
-- `nmake run` **run app**
+- `nmake run-gui` **run app (with GUI)**
+- `nmake run-cmd` **run app (command-line ver.)**
 - `nmake test` **run unit test**
 - `nmake logclear` **clear all empty test logs**
