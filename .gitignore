@@ -2,7 +2,12 @@
 .vscode/
 
 # Meeting Records / Notes
+docs/
 .meeting/
+.design/
+
+# Unit Test log
+logs/
 
 # =========== Default Python gitignore template below ==============
 

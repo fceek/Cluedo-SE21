@@ -1,7 +1,11 @@
 MODULE = cluedo
 
-run:
+run-gui:
 	@py -m $(MODULE)
+
+run-cmd:
+	@cd dev
+	py demo_run.py
 
 test:
 	@pytest
